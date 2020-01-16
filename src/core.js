@@ -1,3 +1,4 @@
+require('v8-compile-cache');
 require('./window') // window functionality
 
 const { exec } = require('child_process');

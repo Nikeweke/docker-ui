@@ -22,7 +22,7 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "./assets/256x256.png"
+      "icon": "./assets/1024.png"
     },
     "nsis": {
       "allowElevation": false,
@@ -50,6 +50,7 @@
     "get-folder-size": "^2.0.1",
     "ncp": "^2.0.0",
     "progress-stream": "^2.0.0",
-    "semantic-ui-css": "^2.4.1"
+    "semantic-ui-css": "^2.4.1",
+    "v8-compile-cache": "^2.1.0"
   }
 }

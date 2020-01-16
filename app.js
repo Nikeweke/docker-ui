@@ -6,7 +6,7 @@ let win
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    icon: path.join(__dirname, 'assets/70x70.png'),
+    icon: path.join(__dirname, 'assets/1024.png'),
     width: 1000, 
     height: 900,
     transparent: true,
