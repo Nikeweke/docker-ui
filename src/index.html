@@ -43,13 +43,7 @@
       <div class="field">
         <div class="ui small action input">
           <input v-model="dockerHost" type="text" placeholder="Docker host...">
-          <button @click="initApp" class="ui button">Apply</button>
-        </div>
-      </div>
-      <div class="field" style="width: 100%;">
-        <div class="ui small action input">
-          <input disabled v-model="cwd" type="text" placeholder="Path where exec commands...">
-          <button @click="selectFolder" class="ui button">Select folder</button>
+          <button @click="initApp" class="ui button">Apply docker host</button>
         </div>
       </div>
     </div>
@@ -64,18 +58,11 @@
 
     <div class="row">
       <div class="col">
-        <h4>docker</h4>
         <button @click="dockerPs" class="ui inverted button violet">ps</button>
         <button @click="dockerImages" class="ui inverted button primary">images</button>
-        <button @click="rmAllContainers" class="ui inverted button olive">rm all containers</button>
+        <button @click="rmAllContainers" class="ui inverted button orange">rm all containers</button>
+        <button @click="rmAllImages" class="ui inverted button orange">rm all images</button>
         <button @click="systemPrune" class="ui inverted button red">system prune -a</button>
-      </div>
-
-      <div class="col">
-        <h4>docker-compose</h4>
-        <button @click="dockerComposePs" class="ui inverted button violet">ps</button>
-        <button @click="dockerComposeUp" class="ui inverted button primary">up  --build</button>
-        <button @click="dockerComposeDown" class="ui inverted button orange">down</button>
       </div>
     </div>
 
@@ -88,55 +75,72 @@
       <div v-for="item of output" v-html="item"></div>
     </div>
 
-    <h3>Containers</h3>
-    <table style="table-layout: fixed; width: 100%" v-if="containers.length !== 0" class="ui inverted table">
-      <thead>
-        <tr>
-          <th class="two wide">Container ID</th>
-          <th class="three wide">Image</th>
-          <th>Command</th>
-          <th class="two wide">Created</th>
-          <th class="two wide">Status</th>
-          <th class="four wide">Ports</th>
-          <th>Names</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="container of containers">
-          <td style="word-wrap: break-word">{{ container.Id }}</td>
-          <td>{{ container.Image }}</td>
-          <td>{{ container.Command }}</td>
-          <td>{{ container.Created }}</td>
-          <td>{{ container.State }}</td>
-          <td style="word-wrap: break-word" v-html="portFormat(container.Ports)"></td>
-          <td>{{ container.Names }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div v-else>
-      No containers found
+    <div class="ui inverted segment">
+      <div class="ui inverted secondary pointing menu">
+        <a :class="{'active': showContainers}" class="item" @click="showContainers = true">
+          Containers
+        </a>
+        <a :class="{'active': !showContainers}" class="item" @click="showContainers = false">
+          Images
+        </a>
+      </div>
     </div>
 
-    <h3>Images</h3>
-    <table style="table-layout: fixed; width: 100%" v-if="images.length !== 0" class="ui inverted table">
-      <thead>
-        <tr>
-          <th>Repository</th>
-          <th class="two wide">Created</th>
-          <th class="two wide">Size</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="image of images">
-          <td>{{ image.RepoTags }}</td>
-          <td>{{ image.Created }}</td>
-          <td>{{ image.Size }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div v-else>
-      No images found
+    <div  v-if="showContainers">
+      <table style="table-layout: fixed; width: 100%" v-if="containers.length !== 0" class="ui very compact  inverted table">
+        <thead>
+          <tr>
+            <th class="three wide">Image</th>
+            <th class="two wide">Command</th>
+            <th class="two wide">Created</th>
+            <th class="two wide">Status</th>
+            <th class="three wide">Ports</th>
+            <th class="two wide">Names</th>
+            <th class="two wide">Container ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="container of containers">
+         
+            <td>{{ container.Image }}</td>
+            <td>{{ container.Command }}</td>
+            <td>{{ container.Created }}</td>
+            <td>{{ container.State }}</td>
+            <td style="word-wrap: break-word" v-html="portFormat(container.Ports)"></td>
+            <td style="word-wrap: break-word">{{ container.Names[0] }}</td>
+            <td style="word-wrap: break-word">
+              {{ container.Id }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-else>
+        No containers found
+      </div>
     </div>
+
+    <div v-if="!showContainers">
+      <table style="table-layout: fixed; width: 100%" v-if="images.length !== 0" class="ui very compact inverted table">
+        <thead>
+          <tr>
+            <th>Repository</th>
+            <th class="two wide">Created</th>
+            <th class="two wide">Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="image of images">
+            <td>{{ image.RepoTags }}</td>
+            <td>{{ image.Created }}</td>
+            <td>{{ image.Size }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-else>
+        No images found
+      </div>
+    </div> 
+
   </div>
     
 

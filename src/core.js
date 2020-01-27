@@ -22,12 +22,21 @@ new Vue({
 		containers: [],
 		images: [],
 		cwd: dirname,
+		showContainers: true
 	}),
 
 	watch: {
     output() {
 			console.log('added new')
 			this.scrollBottomConsole()
+		},
+
+		showContainers(value) {
+      if (value) {
+        this.dockerPs()
+			} else {
+				this.dockerImages()
+			}
 		}
 	},
 
@@ -99,6 +108,8 @@ new Vue({
 						this.output.push(JSON.stringify(res))
 					})  
 				}
+
+				this.dockerPs()
 			});
 		},
 
