@@ -1,6 +1,12 @@
 require('v8-compile-cache');
 require('./window') // window functionality
 
+// set semantic version
+const pjson = require('../package.json');
+const version = pjson.version
+const versionSpan = document.getElementById('version')
+versionSpan.innerHTML = version
+
 const { exec } = require('child_process');
 const dockerode = require('dockerode');
 const electronDialog = require('electron').remote.dialog;
@@ -27,7 +33,6 @@ new Vue({
 
 	watch: {
     output() {
-			console.log('added new')
 			this.scrollBottomConsole()
 		},
 
@@ -38,6 +43,15 @@ new Vue({
 				this.dockerImages()
 			}
 		}
+	},
+
+	filters: {
+    bytesToSize(bytes) {
+			var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+			if (bytes == 0) return '0 Byte';
+			var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+	 	}
 	},
 
 	methods: {

@@ -12,7 +12,7 @@
   <header id="titlebar">
       <div id="drag-region">
         <div id="window-title">
-          <span>Docker UI</span>
+          <span>Docker UI &nbsp;<label class="ui small blue label" id="version"></span> </span>
         </div>
 
         <div id="window-controls">
@@ -102,7 +102,7 @@
         <tbody>
           <tr v-for="container of containers">
          
-            <td>{{ container.Image }}</td>
+            <td style="word-wrap: break-word">{{ container.Image }}</td>
             <td>{{ container.Command }}</td>
             <td>{{ container.Created }}</td>
             <td>{{ container.State }}</td>
@@ -132,7 +132,7 @@
           <tr v-for="image of images">
             <td>{{ image.RepoTags }}</td>
             <td>{{ image.Created }}</td>
-            <td>{{ image.Size }}</td>
+            <td>{{ image.Size | bytesToSize }}</td>
           </tr>
         </tbody>
       </table>
