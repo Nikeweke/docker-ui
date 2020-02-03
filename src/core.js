@@ -28,7 +28,8 @@ new Vue({
 		containers: [],
 		images: [],
 		cwd: dirname,
-		showContainers: true
+		showContainers: true,
+		showConsole: true,
 	}),
 
 	watch: {
@@ -80,6 +81,7 @@ new Vue({
 		},
 
 	  dockerPs() {
+			this.output = []
 			this.dockerode.listContainers({all: true}, (err, containers) => {
 				this.containers = containers
 				this.output.push('> docker ps -a')
@@ -89,6 +91,7 @@ new Vue({
 		},
 
 		dockerImages() {
+			this.output = []
 			this.dockerode.listImages((err, images) => {
 				this.images = images
 				this.output.push('> docker images')
@@ -97,6 +100,7 @@ new Vue({
 		},
 
 		rmAllImages() {
+			this.output = []
 			this.output.push('> docker rmi $(sudo docker images -q)')
       this.dockerode.listImages((err, images) => {
 				if (images.length === 0) return this.output.push('No images found', ' ')
@@ -111,6 +115,7 @@ new Vue({
 		},
 
 		rmAllContainers() {
+			this.output = []
 			this.output.push('> docker rm $(sudo docker ps -q -a)')
 			this.dockerode.listContainers({all: true}, (err, containers) => {
 				if (containers.length === 0) return this.output.push('No containers found', ' ')
@@ -128,6 +133,7 @@ new Vue({
 		},
 
 		systemPrune() {
+			this.output = []
 			this.rmAllContainers()
 			this.rmAllImages()
 

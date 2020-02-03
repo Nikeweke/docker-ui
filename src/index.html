@@ -66,12 +66,14 @@
       </div>
     </div>
 
-    <h4>Console 
+    <h4 @click="showConsole = !showConsole" style="cursor: pointer;">
+      <span v-if="!showConsole"> Show Console <i class="icon angle down"></i> </span>
+      <span v-else> Hide Console <i class="icon angle up"></i> </span> 
       &nbsp;
-      <a v-if="dockerActive" class="ui small green circular label">docker active</a>
-      <a v-else class="ui small red circular label">docker disabled </a>
+      <a v-if="dockerActive" style="color:rgb(124, 255, 92); float:right">docker is online</a>
+      <a v-else class="ui small red circular label">docker is offline </a>
     </h3>
-    <div id="console-area" style="background-color: black; padding: 15px; border-radius: 5px; height: 200px; overflow-y:scroll;"> 
+    <div v-if="showConsole" id="console-area" style="background-color: black; padding: 15px; border-radius: 5px; height: 300px; overflow-y:scroll;"> 
       <div v-for="item of output" v-html="item"></div>
     </div>
 
